@@ -3,9 +3,14 @@
 require_once 'vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Symfony\Component\Dotenv\Dotenv;
+
+$dotenv = new Dotenv();
+$dotenv->load(__DIR__.'/.env');
 
 $api = file_get_contents('php://input');
-$token = '7034078736:AAGKtCK5bFsxHbKyHs3YIXpj5QRKskYcCCs';
+$token = $_ENV['TOKEN'];
+
 $output = json_decode($api, true);
 $chat_id = $output['message']['chat']['id'];
 $message = $output['message']['text'];

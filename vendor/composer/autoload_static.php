@@ -32,6 +32,7 @@ class ComposerStaticInit62e10e6c8df9afc192311b196c75bb33
             'Symfony\\Polyfill\\Intl\\Normalizer\\' => 33,
             'Symfony\\Polyfill\\Intl\\Grapheme\\' => 31,
             'Symfony\\Polyfill\\Iconv\\' => 23,
+            'Symfony\\Component\\Dotenv\\' => 25,
         ),
         'P' => 
         array (
@@ -84,14 +85,18 @@ class ComposerStaticInit62e10e6c8df9afc192311b196c75bb33
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-iconv',
         ),
+        'Symfony\\Component\\Dotenv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/dotenv',
+        ),
         'Psr\\SimpleCache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (

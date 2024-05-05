@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => '__root__',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'reference' => 'cb77232ceda1ffb808bc70596267568918d534a1',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => 'cb77232ceda1ffb808bc70596267568918d534a1',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -88,6 +88,15 @@
             'reference' => '764e0b3939f5ca87cb904f570ef9be2d78a07865',
             'type' => 'library',
             'install_path' => __DIR__ . '/../psr/simple-cache',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'symfony/dotenv' => array(
+            'pretty_version' => 'v6.4.7',
+            'version' => '6.4.7.0',
+            'reference' => '982a8d58c73a7d91d229bc20493b8ae13208741c',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/dotenv',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
