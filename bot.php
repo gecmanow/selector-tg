@@ -26,10 +26,10 @@ $spreadsheet = $reader->load('table.xlsx');
 $reader->setReadDataOnly(true);
 
 $sheetsCount = $spreadsheet->getSheetCount();
-$data = $spreadsheet->getActiveSheet()->toArray();
+$table = $spreadsheet->getActiveSheet()->toArray();
 
 //foreach ($data as $item):
-    echo '<pre>'.print_r($data, true).'</pre>';
+    echo '<pre>'.print_r($table, true).'</pre>';
 //endforeach;
 
 echo '<pre>'.print_r($output, true).'</pre>';
