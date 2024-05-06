@@ -14,40 +14,8 @@ $user = $_ENV['DB_USER'];
 $password = $_ENV['DB_PASSWORD'];
 $token = $_ENV['TOKEN'];
 
-try {
-    $db = new PDO("mysql:dbname=' . $db_name . ';host=' . $host . '", $user, $password);
-} catch (PDOException $e) {
-    die($e->getMessage());
-}
+$db = new PDO('mysql:dbname=' . $db_name . ';host=' . $host, $user, $password);
 
-$query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Прямые продажи' OR `departament` = 'Прямые продажи/Проектные продажи'");
-$query->execute();
-$result = $query->fetchAll(PDO::FETCH_ASSOC);
-
-$people = [];
-echo '<pre>' . print_r($result, true) . '</pre>';
-while($row = $result->fetch_assoc()) {
-    $people[] = $row;
-}
-echo '<pre>' . print_r($row, true) . '</pre>';
-echo '<pre>' . print_r($people, true) . '</pre>';
-$keyboard = array(
-    'reply_markup' => array(
-        'inline_keyboard' => array(),
-        'one_time_keyboard' => TRUE,
-        'resize_keyboard' => TRUE,
-    )
-);
-
-foreach($people as $i => $p) {
-    $keyboard['reply_markup']['inline_keyboard'][$i][0]['text'] = $p['name'];
-    $keyboard['reply_markup']['inline_keyboard'][$i][0]['callback_data'] = $p['telegram_id'];
-}
-echo '<pre>' . print_r($keyboard, true) . '</pre>';
-$keyboard2 = json_encode($keyboard['reply_markup']);
-$keyboard3 = [];
-$keyboard3['reply_markup'] = $keyboard2;
-echo '<pre>' . print_r($keyboard3, true) . '</pre>';
 $api = file_get_contents('php://input');
 
 $output = json_decode($api, true);
@@ -307,12 +275,7 @@ switch ($data){
         $query->execute();
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        $people = [];
         if(count($result) > 0) {
-            while($row = $result->fetch_assoc()) {
-                $people = array_push($people, $row);
-            }
-
             $keyboard = array(
                 'reply_markup' => array(
                     'inline_keyboard' => array(),
@@ -321,7 +284,7 @@ switch ($data){
                 )
             );
 
-            foreach($people as $i => $p) {
+            foreach($result as $i => $p) {
                 $keyboard['reply_markup']['inline_keyboard'][$i][0]['text'] = $p['name'];
                 $keyboard['reply_markup']['inline_keyboard'][$i][0]['callback_data'] = $p['telegram_id'];
             }
