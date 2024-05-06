@@ -3,6 +3,7 @@
         "phpoffice/phpspreadsheet": "^2.0",
         "symfony/dotenv": "*",
       "ext-mysqli": "*",
-      "ext-pdo": "*"
+      "ext-pdo": "*",
+      "ext-mbstring": "*"
     }
 }
