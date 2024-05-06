@@ -308,6 +308,14 @@ switch ($data){
         sendMessage($token, $response);
 
         break;
+
+    default:
+        $response = array(
+            'chat_id' => $chat_id_in,
+            'text' => 'Не понимаю о чём вы...'
+        );
+
+        sendMessage($token, $response);
 }
 
 /*} else {
