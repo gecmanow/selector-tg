@@ -272,7 +272,7 @@ switch ($data){
 
     case '/direct_sales':
         $db_conn = mysqli_connect($host, $user, $password, $db_name);
-        $query = 'SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = `Прямые продажи` OR `Прямые продажи;Проектные продажи`';
+        $query = 'SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = `Прямые продажи` OR `Прямые продажи/Проектные продажи`';
 
         $result = mysqli_query($db_conn, $query);
 
