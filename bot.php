@@ -298,6 +298,7 @@ switch ($data){
         break;
 
     case '/direct_sales':
+        $db_conn = mysqli_connect($host, $user, $password, $db_name);
         $query = "SELECT name, telegram_id FROM users WHERE departament = 'Прямые продажи' OR departament = 'Прямые продажи/Проектные продажи'";
 
         $result = mysqli_query($db_conn, $query);
@@ -334,8 +335,6 @@ switch ($data){
                 'text' => 'Сотрудников нет...'
             );
         }
-
-
 
         sendMessage($token, $response);
 
