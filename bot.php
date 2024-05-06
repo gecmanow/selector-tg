@@ -303,28 +303,36 @@ switch ($data){
         $result = mysqli_query($db_conn, $query);
 
         $people = [];
-        while($row = $result->fetch_assoc()) {
-            $people = array_push($people, $row);
+        if($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $people = array_push($people, $row);
+            }
+
+            $keyboard = array(
+                'reply_markup' => array(
+                    'inline_keyboard' => array(),
+                    'one_time_keyboard' => TRUE,
+                    'resize_keyboard' => TRUE,
+                )
+            );
+
+            foreach($people as $i => $p) {
+                $keyboard['reply_markup']['inline_keyboard'][$i][0]['text'] = $p['name'];
+                $keyboard['reply_markup']['inline_keyboard'][$i][0]['callback_data'] = $p['telegram_id'];
+            }
+
+            $keyboard2 = json_encode($keyboard['reply_markup']);
+            $keyboard3 = [];
+            $keyboard3['reply_markup'] = $keyboard2;
+
+            $response = $keyboard3;
+        } else {
+            $response = array(
+                'chat_id' => $chat_id_in,
+                'text' => 'Сотрудников нет...'
+            );
         }
 
-        $keyboard = array(
-            'reply_markup' => array(
-                'inline_keyboard' => array(),
-                'one_time_keyboard' => TRUE,
-                'resize_keyboard' => TRUE,
-            )
-        );
-
-        foreach($people as $i => $p) {
-            $keyboard['reply_markup']['inline_keyboard'][$i][0]['text'] = $p['name'];
-            $keyboard['reply_markup']['inline_keyboard'][$i][0]['callback_data'] = $p['telegram_id'];
-        }
-
-        $keyboard2 = json_encode($keyboard['reply_markup']);
-        $keyboard3 = [];
-        $keyboard3['reply_markup'] = $keyboard2;
-
-        $response = $keyboard3;
         $response['chat_id'] = $chat_id_in;
         $response['text'] = 'Выберите сотрудника:';
 
