@@ -14,11 +14,16 @@ $user = $_ENV['DB_USER'];
 $password = $_ENV['DB_PASSWORD'];
 $token = $_ENV['TOKEN'];
 
-$db_conn = mysqli_connect($host, $user, $password, $db_name);
-echo '<pre>' . print_r($db_conn, true) . '</pre>';
-$query = "SELECT name, telegram_id FROM users WHERE departament = 'Прямые продажи' OR departament = 'Прямые продажи/Проектные продажи'";
+try {
+    $db = new PDO("mysql:dbname=' . $db_name . ';host=' . $host . '", $user, $password);
+} catch (PDOException $e) {
+    die($e->getMessage());
+}
 
-$result = mysqli_query($db_conn, $query);
+$query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Прямые продажи' OR `departament` = 'Прямые продажи/Проектные продажи'");
+$query->execute();
+$result = $query->fetchAll(PDO::FETCH_ASSOC);
+
 $people = [];
 echo '<pre>' . print_r($result, true) . '</pre>';
 while($row = $result->fetch_assoc()) {
@@ -298,13 +303,12 @@ switch ($data){
         break;
 
     case '/direct_sales':
-        $db_conn = mysqli_connect($host, $user, $password, $db_name);
-        $query = "SELECT name, telegram_id FROM users WHERE departament = 'Прямые продажи' OR departament = 'Прямые продажи/Проектные продажи'";
-
-        $result = mysqli_query($db_conn, $query);
+        $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Прямые продажи' OR `departament` = 'Прямые продажи/Проектные продажи'");
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
 
         $people = [];
-        if($result->num_rows > 0) {
+        if(count($result) > 0) {
             while($row = $result->fetch_assoc()) {
                 $people = array_push($people, $row);
             }
