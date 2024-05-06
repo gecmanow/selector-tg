@@ -292,7 +292,7 @@ switch ($data){
             $keyboard['reply_markup']['inline_keyboard'][$i][0]['callback_data'] = $p['telegram_id'];
         }
 
-        $response = $keyboardStaffDirectSales;
+        $response = $keyboard;
         $response['chat_id'] = $chat_id_in;
         $response['text'] = 'Выберите сотрудника:';
 
