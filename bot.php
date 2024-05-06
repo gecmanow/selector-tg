@@ -18,9 +18,9 @@ $db_conn = mysqli_connect($host, $user, $password, $db_name);
 $query = "SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Прямые продажи' OR 'Прямые продажи/Проектные продажи'";
 
 $result = mysqli_query($db_conn, $query);
-$people = [];
+
 while($row = $result->fetch_assoc()) {
-    $people = array_push($people, $row);
+    $people[] = $row;
 }
 echo '<pre>' . print_r($row, true) . '</pre>';
 echo '<pre>' . print_r($people, true) . '</pre>';
