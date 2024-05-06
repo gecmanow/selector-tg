@@ -15,6 +15,29 @@ $password = $_ENV['DB_PASSWORD'];
 $token = $_ENV['TOKEN'];
 
 $db_conn = mysqli_connect($host, $user, $password, $db_name);
+$query = 'SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = `Прямые продажи` OR `Прямые продажи/Проектные продажи`';
+
+$result = mysqli_query($db_conn, $query);
+
+while($row = $result->fetch_assoc()) {
+    $people[] = $row;
+}
+
+$keyboard = array(
+    'reply_markup' => array(
+        'inline_keyboard' => array(),
+        'one_time_keyboard' => TRUE,
+        'resize_keyboard' => TRUE,
+    )
+);
+
+foreach($people as $i => $p) {
+    $keyboard['reply_markup']['inline_keyboard'][$i][0]['text'] = $p['name'];
+    $keyboard['reply_markup']['inline_keyboard'][$i][0]['callback_data'] = $p['telegram_id'];
+}
+
+$response = json_encode($keyboard);
+echo '<pre>' . print_r($response, true) . '</pre>';
 
 $api = file_get_contents('php://input');
 
