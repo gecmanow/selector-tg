@@ -22,7 +22,7 @@ $people = [];
 while($row = $result->fetch_assoc()) {
     $people[] = $row;
 }
-
+echo '<pre>' . print_r($people, true) . '</pre>';
 $keyboard = array(
     'reply_markup' => array(
         'inline_keyboard' => array(),
@@ -35,7 +35,7 @@ foreach($people as $i => $p) {
     $keyboard['reply_markup']['inline_keyboard'][$i][0]['text'] = $p['name'];
     $keyboard['reply_markup']['inline_keyboard'][$i][0]['callback_data'] = $p['telegram_id'];
 }
-
+echo '<pre>' . print_r($keyboard, true) . '</pre>';
 $keyboard2 = json_encode($keyboard['reply_markup']);
 $keyboard3 = [];
 $keyboard3['reply_markup'] = $keyboard2;
