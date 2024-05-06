@@ -1,7 +1,7 @@
 {
     "require": {
         "phpoffice/phpspreadsheet": "^2.0",
-        "symfony/dotenv": "^6.4",
+        "symfony/dotenv": "*",
       "ext-mysqli": "*"
     }
 }

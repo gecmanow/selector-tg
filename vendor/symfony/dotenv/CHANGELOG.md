@@ -1,11 +1,6 @@
 CHANGELOG
 =========
 
-6.2
----
-
- * Add a new `filter` argument to `debug:dotenv` command to filter variable names
-
 5.4
 ---
 
