@@ -22,7 +22,7 @@ $password = $_ENV['DB_PASSWORD'];
 $token = $_ENV['TOKEN'];
 $direct_sales = 'Прямые продажи';
 $direct_project_sales = 'Прямые продажи/Проектные продажи';
-$db = new PDO('mysql:dbname=' . $db_name . ';host=' . $host, $user, $password);
+$db = new PDO('mysql:dbname=' . $db_name . ';host=' . $host . 'charset=UTF8', $user, $password);
 $query = $db->prepare("SELECT * FROM users");
 //$query->bindValue(':direct_sales', "$direct_sales");
 //$query->bindValue(':direct_project_sales', "$direct_project_sales");
