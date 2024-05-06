@@ -300,8 +300,9 @@ switch ($data){
 
         $result = mysqli_query($db_conn, $query);
 
+        $people = [];
         while($row = $result->fetch_assoc()) {
-            $people[] = $row;
+            $people = array_push($people, $row);
         }
 
         $keyboard = array(
