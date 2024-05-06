@@ -20,7 +20,7 @@ $query = "SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Пр�
 $result = mysqli_query($db_conn, $query);
 $people = [];
 while($row = $result->fetch_assoc()) {
-    $people[] = $row;
+    $people = array_push($people, $row);
 }
 echo '<pre>' . print_r($people, true) . '</pre>';
 $keyboard = array(
