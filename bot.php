@@ -15,6 +15,11 @@ $password = $_ENV['DB_PASSWORD'];
 $token = $_ENV['TOKEN'];
 
 $db = new PDO('mysql:dbname=' . $db_name . ';host=' . $host, $user, $password);
+$query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Прямые продажи' OR `departament` = 'Прямые продажи/Проектные продажи'");
+$query->execute();
+$result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+echo '<pre>' . print_r($result, true) . '</pre>';
 
 $api = file_get_contents('php://input');
 
