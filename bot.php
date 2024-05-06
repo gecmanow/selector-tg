@@ -17,7 +17,7 @@ $token = $_ENV['TOKEN'];
 $db = new PDO('mysql:dbname=' . $db_name . ';host=' . $host, $user, $password);
 $query = $db->prepare("SELECT * FROM users WHERE departament IN ('Прямые продажи', 'Прямые продажи/Проектные продажи')");
 $query->execute();
-$result = $query->fetchAll();
+$result = $query->fetchAll(PDO::FETCH_ASSOC);
 
 echo '<pre>' . print_r($result, true) . '</pre>';
 
