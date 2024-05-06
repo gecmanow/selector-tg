@@ -8,8 +8,15 @@ use Symfony\Component\Dotenv\Dotenv;
 $dotenv = new Dotenv();
 $dotenv->load(__DIR__.'/.env');
 
-$api = file_get_contents('php://input');
+$host = $_ENV['DB_HOST'];
+$db_name = $_ENV['DB_NAME'];
+$user = $_ENV['DB_USER'];
+$password = $_ENV['DB_PASSWORD'];
 $token = $_ENV['TOKEN'];
+
+$db_conn = mysqli_connect($host, $user, $password, $db_name);
+
+$api = file_get_contents('php://input');
 
 $output = json_decode($api, true);
 $chat_id = $output['message']['chat']['id'];
@@ -27,12 +34,6 @@ $reader->setReadDataOnly(true);
 
 $sheetsCount = $spreadsheet->getSheetCount();
 $table = $spreadsheet->getActiveSheet()->toArray();
-
-//foreach ($data as $item):
-    echo '<pre>'.print_r($table, true).'</pre>';
-//endforeach;
-
-echo '<pre>'.print_r($output, true).'</pre>';
 
 file_put_contents(__DIR__ . '/message.txt', print_r($output, true));
 
@@ -260,6 +261,7 @@ switch ($message) {
 
 switch ($data){
     case '/department':
+
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id_in;
         $response['text'] = 'Выберите отдел:';
@@ -268,7 +270,28 @@ switch ($data){
 
         break;
 
-    case '/staff':
+    case '/direct_sales':
+        $query = 'SELECT `name`, `telegram_id` FROM `users` WHERE `department` = `Прямые продажи` OR `Прямые продажи;Проектные продажи`';
+
+        $result = mysqli_query($db_conn, $query);
+
+        while($row = $result->fetch_assoc()) {
+            $people[] = $row;
+        }
+
+        $keyboard = array(
+            'reply_markup' => array(
+                'inline_keyboard' => array(),
+                'one_time_keyboard' => TRUE,
+                'resize_keyboard' => TRUE,
+            )
+        );
+
+        foreach($people as $i => $p) {
+            $keyboard['reply_markup']['inline_keyboard'][$i][0]['text'] = $p['name'];
+            $keyboard['reply_markup']['inline_keyboard'][$i][0]['callback_data'] = $p['telegram_id'];
+        }
+
         $response = $keyboardStaffDirectSales;
         $response['chat_id'] = $chat_id_in;
         $response['text'] = 'Выберите сотрудника:';
