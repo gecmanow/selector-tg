@@ -147,7 +147,7 @@ $keyboardStaffDirectSales = array(
         'resize_keyboard' => TRUE,
     ))
 );
-
+echo '<pre>' . print_r($keyboardStaffDirectSales, true) . '</pre>';
 //if($data['message']['from']['id'] == 261803700) {
 
 switch ($message) {
@@ -292,7 +292,11 @@ switch ($data){
             $keyboard['reply_markup']['inline_keyboard'][$i][0]['callback_data'] = $p['telegram_id'];
         }
 
-        $response = $keyboard;
+        $keyboard2 = json_encode($keyboard['reply_markup']);
+        $keyboard3 = [];
+        $keyboard3['reply_markup'] = $keyboard2;
+
+        $response = $keyboard3;
         $response['chat_id'] = $chat_id_in;
         $response['text'] = 'Выберите сотрудника:';
 
