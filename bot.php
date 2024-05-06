@@ -19,6 +19,7 @@ $query = "SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Пр�
 
 $result = mysqli_query($db_conn, $query);
 $people = [];
+echo '<pre>' . print_r($result, true) . '</pre>';
 while($row = $result->fetch_assoc()) {
     $people[] = $row;
 }
