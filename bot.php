@@ -22,6 +22,7 @@ $people = [];
 while($row = $result->fetch_assoc()) {
     $people = array_push($people, $row);
 }
+echo '<pre>' . print_r($row, true) . '</pre>';
 echo '<pre>' . print_r($people, true) . '</pre>';
 $keyboard = array(
     'reply_markup' => array(
