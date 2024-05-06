@@ -326,6 +326,8 @@ switch ($data){
             $keyboard3['reply_markup'] = $keyboard2;
 
             $response = $keyboard3;
+            $response['chat_id'] = $chat_id_in;
+            $response['text'] = 'Выберите сотрудника:';
         } else {
             $response = array(
                 'chat_id' => $chat_id_in,
@@ -333,8 +335,7 @@ switch ($data){
             );
         }
 
-        $response['chat_id'] = $chat_id_in;
-        $response['text'] = 'Выберите сотрудника:';
+
 
         sendMessage($token, $response);
 
