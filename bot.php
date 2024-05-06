@@ -16,7 +16,7 @@ $token = $_ENV['TOKEN'];
 
 $db_conn = mysqli_connect($host, $user, $password, $db_name);
 echo '<pre>' . print_r($db_conn, true) . '</pre>';
-$query = "SELECT name, telegram_id FROM users WHERE departament = 'Прямые продажи' OR 'Прямые продажи/Проектные продажи'";
+$query = "SELECT name, telegram_id FROM users WHERE departament = 'Прямые продажи' OR departament = 'Прямые продажи/Проектные продажи'";
 
 $result = mysqli_query($db_conn, $query);
 $people = [];
@@ -298,7 +298,7 @@ switch ($data){
         break;
 
     case '/direct_sales':
-        $query = "SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Прямые продажи' OR 'Прямые продажи/Проектные продажи'";
+        $query = "SELECT name, telegram_id FROM users WHERE departament = 'Прямые продажи' OR departament = 'Прямые продажи/Проектные продажи'";
 
         $result = mysqli_query($db_conn, $query);
 
