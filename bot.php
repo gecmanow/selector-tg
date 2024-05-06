@@ -126,6 +126,12 @@ $keyboardDepartment = array(
             ),
             array(
                 array(
+                    'text' => 'Бухгалтерия',
+                    'callback_data' => '/comptabilitat',
+                )
+            ),
+            array(
+                array(
                     'text' => 'Сервис',
                     'callback_data' => '/service',
                 )
@@ -552,6 +558,43 @@ switch ($data){
 
     case '/root':
         $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Корневой'");
+        $query->execute();
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        if(count($result) > 0) {
+            $keyboard = array(
+                'reply_markup' => array(
+                    'inline_keyboard' => array(),
+                    'one_time_keyboard' => TRUE,
+                    'resize_keyboard' => TRUE,
+                )
+            );
+
+            foreach($result as $i => $p) {
+                $keyboard['reply_markup']['inline_keyboard'][$i][0]['text'] = $p['name'];
+                $keyboard['reply_markup']['inline_keyboard'][$i][0]['callback_data'] = $p['telegram_id'];
+            }
+
+            $keyboard2 = json_encode($keyboard['reply_markup']);
+            $keyboard3 = [];
+            $keyboard3['reply_markup'] = $keyboard2;
+
+            $response = $keyboard3;
+            $response['chat_id'] = $chat_id_in;
+            $response['text'] = 'Выберите сотрудника:';
+        } else {
+            $response = array(
+                'chat_id' => $chat_id_in,
+                'text' => 'Сотрудников нет...'
+            );
+        }
+
+        sendMessage($token, $response);
+
+        break;
+
+    case '/comptabilitat':
+        $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Бухгалтерия'");
         $query->execute();
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
 
