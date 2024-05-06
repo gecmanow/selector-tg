@@ -13,9 +13,12 @@ $db_name = $_ENV['DB_NAME'];
 $user = $_ENV['DB_USER'];
 $password = $_ENV['DB_PASSWORD'];
 $token = $_ENV['TOKEN'];
-
+$direct_sales = 'Прямые продажи';
+$direct_project_sales = 'Прямые продажи/Проектные продажи';
 $db = new PDO('mysql:dbname=' . $db_name . ';host=' . $host, $user, $password);
-$query = $db->prepare("SELECT * FROM users WHERE departament = 'Прямые продажи' OR departament = 'Прямые продажи/Проектные продажи'");
+$query = $db->prepare("SELECT * FROM users WHERE departament = :direct_sales OR departament = :direct_project_sales");
+$query->bindValue(':direct_sales', "$direct_sales");
+$query->bindValue(':direct_project_sales', "$direct_project_sales");
 $query->execute();
 $result = $query->fetchAll(PDO::FETCH_ASSOC);
 
