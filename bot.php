@@ -364,7 +364,7 @@ switch ($data){
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        $response = getWorkers($db_response, $chat_id_in);
+        $response = getWorkers($db_response, $chat_id_in, $action);
 
         sendMessage($token, $response);
 
@@ -414,6 +414,7 @@ switch ($data){
                 $worker_name = $dbr['name'];
             }
             $action_response = 'не могу найти требуемое действие...';
+
             if($action === 'enter') {
                 $action_response = 'Зайдите ко мне.';
             }
@@ -472,7 +473,7 @@ function sendMessage($token, $response) {
     curl_close($ch);
 }
 
-function getWorkers($db_response, $chat_id_in) {
+function getWorkers($db_response, $chat_id_in, $action = 'action') {
     if(count($db_response) > 0) {
         $keyboard = array(
             'reply_markup' => array(
@@ -493,7 +494,7 @@ function getWorkers($db_response, $chat_id_in) {
 
         $response = $keyboard3;
         $response['chat_id'] = $chat_id_in;
-        $response['text'] = 'Выберите сотрудника:';
+        $response['text'] = 'Выберите сотрудника:' .$action;
         return $response;
     } else {
         return array(
