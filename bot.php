@@ -20,16 +20,8 @@ $db_name = $_ENV['DB_NAME'];
 $user = $_ENV['DB_USER'];
 $password = $_ENV['DB_PASSWORD'];
 $token = $_ENV['TOKEN'];
-$direct_sales = 'Прямые продажи';
-$direct_project_sales = 'Прямые продажи/Проектные продажи';
-$db = new PDO('mysql:dbname=' . $db_name . ';host=' . $host . ';charset=UTF8', $user, $password);
-$query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Прямые продажи' OR `departament` = 'Прямые продажи/Проектные продажи'");
-//$query->bindValue(':direct_sales', "$direct_sales");
-//$query->bindValue(':direct_project_sales', "$direct_project_sales");
-$query->execute();
-$result = $query->fetchAll(PDO::FETCH_ASSOC);
 
-echo '<pre>' . print_r($result, true) . '</pre>';
+$db = new PDO('mysql:dbname=' . $db_name . ';host=' . $host . ';charset=UTF8', $user, $password);
 
 $api = file_get_contents('php://input');
 
@@ -42,13 +34,13 @@ $message_id = $callback_query['message']['message_id'];
 $chat_id_in = $callback_query['message']['chat']['id'];
 $first_name = $output['message']['from']['first_name'];
 
-$reader = IOFactory::createReader('Xlsx');
-$spreadsheet = $reader->load('table.xlsx');
+//$reader = IOFactory::createReader('Xlsx');
+//$spreadsheet = $reader->load('table.xlsx');
 // Только чтение данных
-$reader->setReadDataOnly(true);
+//$reader->setReadDataOnly(true);
 
-$sheetsCount = $spreadsheet->getSheetCount();
-$table = $spreadsheet->getActiveSheet()->toArray();
+//$sheetsCount = $spreadsheet->getSheetCount();
+//$table = $spreadsheet->getActiveSheet()->toArray();
 
 file_put_contents(__DIR__ . '/message.txt', print_r($output, true));
 
@@ -174,7 +166,7 @@ $keyboardStaffDirectSales = array(
         'resize_keyboard' => TRUE,
     ))
 );
-echo '<pre>' . print_r($keyboardStaffDirectSales, true) . '</pre>';
+//echo '<pre>' . print_r($keyboardStaffDirectSales, true) . '</pre>';
 //if($data['message']['from']['id'] == 261803700) {
 
 switch ($message) {
@@ -298,10 +290,10 @@ if($action) {
     echo '<pre>' . print_r($action, true) . '</pre>';
 }
 
-$search_worker = strpos($data, '/');
+$search_worker = strpos($data, '@');
 if($search_worker !== false) {
-    $worker = explode('/', $data)[1];
-    $data = explode('/', $data)[0];
+    $worker = explode('@', $data)[1];
+    $data = explode('@', $data)[0];
 }
 if($worker) {
     echo '<pre>' . print_r($worker, true) . '</pre>';
@@ -501,7 +493,7 @@ function getWorkers($db_response, $chat_id_in) {
 
         foreach($db_response as $i => $dbr) {
             $keyboard['reply_markup']['inline_keyboard'][$i][0]['text'] = $dbr['name'];
-            $keyboard['reply_markup']['inline_keyboard'][$i][0]['callback_data'] = 'worker/' . $dbr['telegram_id'];
+            $keyboard['reply_markup']['inline_keyboard'][$i][0]['callback_data'] = 'worker@' . $dbr['telegram_id'];
         }
 
         $keyboard2 = json_encode($keyboard['reply_markup']);
