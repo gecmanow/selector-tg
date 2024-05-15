@@ -183,30 +183,31 @@ switch ($message) {
         break;
 
     case 'Зайти':
+        $action = 'enter';
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id;
         $response['text'] = 'Выберите отдел:';
-        $action = 'enter';
 
         sendMessage($token, $response);
+        return $action;
 
         break;
 
     case 'Перезвонить':
+        $action = 'call';
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id;
         $response['text'] = 'Выберите отдел:';
-        $action = 'call';
 
         sendMessage($token, $response);
 
         break;
 
     case 'Назначить Zoom':
+        $action = 'zoom';
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id;
         $response['text'] = 'Выберите отдел:';
-        $action = 'zoom';
 
         sendMessage($token, $response);
 
