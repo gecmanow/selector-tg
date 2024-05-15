@@ -186,6 +186,7 @@ switch ($message) {
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id;
         $response['text'] = 'Выберите отдел:';
+        $action = 'enter';
 
         sendMessage($token, $response);
 
@@ -195,6 +196,7 @@ switch ($message) {
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id;
         $response['text'] = 'Выберите отдел:';
+        $action = 'call';
 
         sendMessage($token, $response);
 
@@ -204,6 +206,7 @@ switch ($message) {
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id;
         $response['text'] = 'Выберите отдел:';
+        $action = 'zoom';
 
         sendMessage($token, $response);
 
@@ -279,12 +282,6 @@ switch ($message) {
         );
 
         sendMessage($token, $response);
-}
-
-$search_action = strpos($data, '|');
-if($search_action !== false) {
-    $action = explode('|', $data)[1];
-    $data = explode('|', $data)[0];
 }
 
 $search_worker = strpos($data, '@');
@@ -364,7 +361,7 @@ switch ($data){
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        $response = getWorkers($db_response, $chat_id_in, $action);
+        $response = getWorkers($db_response, $chat_id_in);
 
         sendMessage($token, $response);
 
