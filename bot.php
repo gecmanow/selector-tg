@@ -179,7 +179,7 @@ echo '<pre>' . print_r($keyboardStaffDirectSales, true) . '</pre>';
 
 switch ($message) {
     case '/start':
-        $query = $db->prepare('INSERT INTO actions(name, chat_id) VALUES ( . ' . $first_name . ', ' . $chat_id . ')');
+        $query = $db->prepare('INSERT INTO actions (name, chat_id) VALUES (' . $first_name . ', ' . $chat_id . ')');
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
         $response = $keyboardAction;
