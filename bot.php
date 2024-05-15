@@ -294,12 +294,18 @@ if($search_action !== false) {
     $action = explode('|', $data)[1];
     $data = explode('|', $data)[0];
 }
+if($action) {
+    echo '<pre>' . print_r($action, true) . '</pre>';
+}
+
 $search_worker = strpos($data, '/');
 if($search_worker !== false) {
     $worker = explode('/', $data)[1];
     $data = explode('/', $data)[0];
 }
-
+if($worker) {
+    echo '<pre>' . print_r($worker, true) . '</pre>';
+}
 switch ($data){
     case 'dep':
 
