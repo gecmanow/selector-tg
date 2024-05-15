@@ -58,19 +58,19 @@ $keyboardAction = array(
             array(
                 array(
                     'text' => 'Зайти',
-                    'callback_data' => '/department',
+                    'callback_data' => 'dep|enter',
                 )
             ),
             array(
                 array(
                     'text' => 'Перезвонить',
-                    'callback_data' => '/department',
+                    'callback_data' => 'dep|call',
                 )
             ),
             array(
                 array(
                     'text' => 'Назначить Zoom',
-                    'callback_data' => '/department',
+                    'callback_data' => 'dep|zoom',
                 )
             )
         ),
@@ -85,61 +85,61 @@ $keyboardDepartment = array(
             array(
                 array(
                     'text' => 'Корневой',
-                    'callback_data' => '/root',
+                    'callback_data' => 'root',
                 )
             ),
             array(
                 array(
                     'text' => 'Прямые продажи',
-                    'callback_data' => '/direct_sales',
+                    'callback_data' => 'direct_sales',
                 )
             ),
             array(
                 array(
                     'text' => 'Проектные продажи',
-                    'callback_data' => '/project_sales',
+                    'callback_data' => 'project_sales',
                 )
             ),
             array(
                 array(
                     'text' => 'Снабжение',
-                    'callback_data' => '/supply',
+                    'callback_data' => 'supply',
                 )
             ),
             array(
                 array(
                     'text' => 'ВЭД',
-                    'callback_data' => '/ved',
+                    'callback_data' => 'ved',
                 )
             ),
             array(
                 array(
                     'text' => 'HR',
-                    'callback_data' => '/hr',
+                    'callback_data' => 'hr',
                 )
             ),
             array(
                 array(
                     'text' => 'IT + маркетинг',
-                    'callback_data' => '/it_and_marketing',
+                    'callback_data' => 'it',
                 )
             ),
             array(
                 array(
                     'text' => 'Бухгалтерия',
-                    'callback_data' => '/comptabilitat',
+                    'callback_data' => 'comptabilitat',
                 )
             ),
             array(
                 array(
                     'text' => 'Сервис',
-                    'callback_data' => '/service',
+                    'callback_data' => 'service',
                 )
             ),
             array(
                 array(
                     'text' => 'Назад',
-                    'callback_data' => '/back',
+                    'callback_data' => 'back',
                 )
             )
         ),
@@ -289,8 +289,19 @@ switch ($message) {
         sendMessage($token, $response);
 }
 
+$search_action = strpos($data, '|');
+if($search_action !== false) {
+    $action = explode('|', $data)[1];
+    $data = explode('|', $data)[0];
+}
+$search_worker = strpos($data, '/');
+if($search_worker !== false) {
+    $worker = explode('/', $data)[1];
+    $data = explode('/', $data)[0];
+}
+
 switch ($data){
-    case '/department':
+    case 'dep':
 
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id_in;
@@ -300,7 +311,7 @@ switch ($data){
 
         break;
 
-    case '/direct_sales':
+    case 'direct_sales':
         $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Прямые продажи' OR `departament` = 'Прямые продажи/Проектные продажи'");
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -311,7 +322,7 @@ switch ($data){
 
         break;
 
-    case '/project_sales':
+    case 'project_sales':
         $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Проектные продажи' OR `departament` = 'Прямые продажи/Проектные продажи'");
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -322,7 +333,7 @@ switch ($data){
 
         break;
 
-    case '/supply':
+    case 'supply':
         $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Снабжение'");
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -333,7 +344,7 @@ switch ($data){
 
         break;
 
-    case '/ved':
+    case 'ved':
         $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'ВЭД'");
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -344,7 +355,7 @@ switch ($data){
 
         break;
 
-    case '/hr':
+    case 'hr':
         $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'HR'");
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -355,7 +366,7 @@ switch ($data){
 
         break;
 
-    case '/it_and_marketing':
+    case 'it':
         $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'IT + маркетинг'");
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -366,7 +377,7 @@ switch ($data){
 
         break;
 
-    case '/service':
+    case 'service':
         $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Сервис'");
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -377,7 +388,7 @@ switch ($data){
 
         break;
 
-    case '/root':
+    case 'root':
         $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Корневой'");
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -388,7 +399,7 @@ switch ($data){
 
         break;
 
-    case '/comptabilitat':
+    case 'comptabilitat':
         $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Бухгалтерия'");
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -399,7 +410,39 @@ switch ($data){
 
         break;
 
-    case '/back':
+    case 'worker':
+
+        $query = $db->prepare("SELECT `name` FROM `users` WHERE `telegram_id` = '$worker'");
+        $query->execute();
+        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        if(count($db_response) > 0) {
+            foreach($db_response as $i => $dbr) {
+                $worker_name = $dbr['name'];
+            }
+            switch ($action){
+                case 'enter':
+                    $action_response = 'Зайдите ко мне.';
+                    break;
+
+                case 'call':
+                    $action_response = 'Позвоните мне.';
+                    break;
+
+                case 'zoom':
+                    $action_response = 'Назначьте встречу в Zoom.';
+                    break;
+            }
+
+
+            $response['chat_id'] = $worker;
+            $response['text'] = 'Здравствуйте ' . $worker_name . '!' . $action_response;
+            sendMessage($token, $response);
+        }
+
+        break;
+
+    case 'back':
         $response = $keyboardAction;
         $response['chat_id'] = $chat_id_in;
         $response['text'] = 'Здравствуйте ' . $first_name . ', что Вы хотите сделать?';
@@ -452,7 +495,7 @@ function getWorkers($db_response, $chat_id_in) {
 
         foreach($db_response as $i => $dbr) {
             $keyboard['reply_markup']['inline_keyboard'][$i][0]['text'] = $dbr['name'];
-            $keyboard['reply_markup']['inline_keyboard'][$i][0]['callback_data'] = $dbr['telegram_id'];
+            $keyboard['reply_markup']['inline_keyboard'][$i][0]['callback_data'] = 'worker/' . $dbr['telegram_id'];
         }
 
         $keyboard2 = json_encode($keyboard['reply_markup']);
