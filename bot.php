@@ -302,7 +302,7 @@ switch ($data){
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        getWorkers($db_response, $chat_id_in);
+        $response = getWorkers($db_response, $chat_id_in);
 
         sendMessage($token, $response);
 
@@ -313,7 +313,7 @@ switch ($data){
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        getWorkers($db_response, $chat_id_in);
+        $response = getWorkers($db_response, $chat_id_in);
 
         sendMessage($token, $response);
 
@@ -324,7 +324,7 @@ switch ($data){
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        getWorkers($db_response, $chat_id_in);
+        $response = getWorkers($db_response, $chat_id_in);
 
         sendMessage($token, $response);
 
@@ -335,7 +335,7 @@ switch ($data){
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        getWorkers($db_response, $chat_id_in);
+        $response = getWorkers($db_response, $chat_id_in);
 
         sendMessage($token, $response);
 
@@ -346,7 +346,7 @@ switch ($data){
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        getWorkers($db_response, $chat_id_in);
+        $response = getWorkers($db_response, $chat_id_in);
 
         sendMessage($token, $response);
 
@@ -357,7 +357,7 @@ switch ($data){
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        getWorkers($db_response, $chat_id_in);
+        $response = getWorkers($db_response, $chat_id_in);
 
         sendMessage($token, $response);
 
@@ -368,7 +368,7 @@ switch ($data){
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        getWorkers($db_response, $chat_id_in);
+        $response = getWorkers($db_response, $chat_id_in);
 
         sendMessage($token, $response);
 
@@ -379,7 +379,7 @@ switch ($data){
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        getWorkers($db_response, $chat_id_in);
+        $response = getWorkers($db_response, $chat_id_in);
 
         sendMessage($token, $response);
 
@@ -390,7 +390,7 @@ switch ($data){
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        getWorkers($db_response, $chat_id_in);
+        $response = getWorkers($db_response, $chat_id_in);
 
         sendMessage($token, $response);
 
