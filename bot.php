@@ -182,7 +182,7 @@ switch ($message) {
 
         break;
 
-    case 'Зайти':
+    /*case 'Зайти':
         $action = 'enter';
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id;
@@ -265,7 +265,7 @@ switch ($message) {
 
         sendMessage($token, $response);
 
-        break;
+        break;*/
 
     case 'Назад':
         $response = $keyboardAction;
@@ -284,7 +284,7 @@ switch ($message) {
 
         sendMessage($token, $response);
 }
-
+$action = 'action';
 $search_worker = strpos($data, '@');
 if($search_worker !== false) {
     $worker = explode('@', $data)[1];
@@ -292,14 +292,37 @@ if($search_worker !== false) {
 }
 
 switch ($data){
-    case 'dep':
+    case 'dep|enter':
 
+        $action = 'enter';
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id_in;
         $response['text'] = 'Выберите отдел:';
 
         sendMessage($token, $response);
+        return $action;
+        break;
 
+    case 'dep|call':
+
+        $action = 'call';
+        $response = $keyboardDepartment;
+        $response['chat_id'] = $chat_id_in;
+        $response['text'] = 'Выберите отдел:';
+
+        sendMessage($token, $response);
+        return $action;
+        break;
+
+    case 'dep|zoom':
+
+        $action = 'zoom';
+        $response = $keyboardDepartment;
+        $response['chat_id'] = $chat_id_in;
+        $response['text'] = 'Выберите отдел:';
+
+        sendMessage($token, $response);
+        return $action;
         break;
 
     case 'direct_sales':
