@@ -286,18 +286,13 @@ if($search_action !== false) {
     $action = explode('|', $data)[1];
     $data = explode('|', $data)[0];
 }
-if($action) {
-    echo '<pre>' . print_r($action, true) . '</pre>';
-}
 
 $search_worker = strpos($data, '@');
 if($search_worker !== false) {
     $worker = explode('@', $data)[1];
     $data = explode('@', $data)[0];
 }
-if($worker) {
-    echo '<pre>' . print_r($worker, true) . '</pre>';
-}
+
 switch ($data){
     case 'dep':
 
@@ -418,23 +413,19 @@ switch ($data){
             foreach($db_response as $i => $dbr) {
                 $worker_name = $dbr['name'];
             }
-            switch ($action){
-                case 'enter':
-                    $action_response = 'Зайдите ко мне.';
-                    break;
-
-                case 'call':
-                    $action_response = 'Позвоните мне.';
-                    break;
-
-                case 'zoom':
-                    $action_response = 'Назначьте встречу в Zoom.';
-                    break;
+            $action_response = 'не могу найти требуемое действие...';
+            if($action = 'enter') {
+                $action_response = 'Зайдите ко мне.';
+            }
+            if($action = 'call') {
+                $action_response = 'Позвоните мне.';
+            }
+            if($action = 'zoom') {
+                $action_response = 'Назначьте встречу в Zoom.';
             }
 
-
             $response['chat_id'] = $worker;
-            $response['text'] = 'Здравствуйте ' . $worker_name . '!' . $action_response;
+            $response['text'] = 'Здравствуйте ' . $worker_name . '! ' . $action_response;
             sendMessage($token, $response);
         }
 
