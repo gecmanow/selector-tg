@@ -301,6 +301,8 @@ switch ($data){
 
         sendMessage($token, $response);
 
+        break;
+
     case 'dep|call':
 
         $action = 'call';
@@ -310,6 +312,8 @@ switch ($data){
 
         sendMessage($token, $response);
 
+        break;
+
     case 'dep|zoom':
 
         $action = 'zoom';
@@ -318,6 +322,8 @@ switch ($data){
         $response['text'] = 'Выберите отдел:';
 
         sendMessage($token, $response);
+
+        break;
 
     case 'direct_sales':
         $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Прямые продажи' OR `departament` = 'Прямые продажи/Проектные продажи'");
