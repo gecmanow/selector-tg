@@ -434,16 +434,15 @@ switch ($data){
             foreach($db_response as $i => $dbr) {
                 $worker_name = $dbr['name'];
             }
-            $action_response = 'не могу найти требуемое действие...';
 
             if($action === 'enter') {
                 $action_response = 'Зайдите ко мне.';
-            }
-            if($action === 'call') {
+            } elseif ($action === 'call') {
                 $action_response = 'Позвоните мне.';
-            }
-            if($action === 'zoom') {
+            } elseif ($action === 'zoom') {
                 $action_response = 'Назначьте встречу в Zoom.';
+            } else {
+                $action_response = 'не могу найти требуемое действие...';
             }
 
             $response['chat_id'] = $worker;
