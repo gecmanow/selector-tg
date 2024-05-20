@@ -185,10 +185,12 @@ if($search_worker !== false) {
     $data = explode('@', $data)[0];
 
     foreach($users as $user) {
-        if($user['telegram_id'] == $telegram_id) {
+        if($user['telegram_id'] === $telegram_id) {
             $query = $db->prepare("SELECT `name`, `action` FROM `actions` WHERE `chat_id` = '$chat_id_in' ORDER BY `created_at` DESC LIMIT 1");
             $query->execute();
             $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $worker = [];
 
             if(count($db_response) > 0) {
                 foreach($db_response as $i => $dbr) {
