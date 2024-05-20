@@ -154,7 +154,7 @@ switch ($message) {
 
         $response = $keyboardAction;
         $response['chat_id'] = $chat_id;
-        $response['text'] = 'Здравствуйте ' . $first_name . ', что Вы хотите сделать? '. $db_response;
+        $response['text'] = 'Здравствуйте ' . $first_name . ', что Вы хотите сделать? '. implode(' ', $db_response);
 
         sendMessage($token, $response);
 
