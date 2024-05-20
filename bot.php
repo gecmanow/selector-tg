@@ -140,33 +140,6 @@ $keyboardDepartment = array(
     ))
 );
 
-$keyboardStaffDirectSales = array(
-    'reply_markup' => json_encode(array(
-        'inline_keyboard' => array(
-            array(
-                array(
-                    'text' => 'Сотрудник 1',
-                    'callback_data' => '/keyboardStaffDirectSales',
-                )
-            ),
-            array(
-                array(
-                    'text' => 'Сотрудник 2',
-                    'callback_data' => '/keyboardStaffDirectSales',
-                )
-            ),
-            array(
-                array(
-                    'text' => 'Сотрудник 3',
-                    'callback_data' => '/keyboardStaffDirectSales',
-                )
-            )
-        ),
-        'one_time_keyboard' => TRUE,
-        'resize_keyboard' => TRUE,
-    ))
-);
-//echo '<pre>' . print_r($keyboardStaffDirectSales, true) . '</pre>';
 //if($data['message']['from']['id'] == 261803700) {
 
 switch ($message) {
@@ -182,91 +155,6 @@ switch ($message) {
         sendMessage($token, $response);
 
         break;
-
-    /*case 'Зайти':
-        $action = 'enter';
-        $response = $keyboardDepartment;
-        $response['chat_id'] = $chat_id;
-        $response['text'] = 'Выберите отдел:';
-
-        sendMessage($token, $response);
-        return $action;
-
-        break;
-
-    case 'Перезвонить':
-        $action = 'call';
-        $response = $keyboardDepartment;
-        $response['chat_id'] = $chat_id;
-        $response['text'] = 'Выберите отдел:';
-
-        sendMessage($token, $response);
-
-        break;
-
-    case 'Назначить Zoom':
-        $action = 'zoom';
-        $response = $keyboardDepartment;
-        $response['chat_id'] = $chat_id;
-        $response['text'] = 'Выберите отдел:';
-
-        sendMessage($token, $response);
-
-        break;
-
-    case 'Прямые продажи':
-        $response = $keyboardStaffDirectSales;
-        $response['chat_id'] = $chat_id;
-        $response['text'] = 'Выберите сотрудника:';
-
-        sendMessage($token, $response);
-
-        break;
-
-    case 'Проектные продажи':
-        $response = $keyboardStaffDirectSales;
-        $response['chat_id'] = $chat_id;
-        $response['text'] = 'Выберите сотрудника:';
-
-        sendMessage($token, $response);
-
-        break;
-
-    case 'Снабжение':
-        $response = $keyboardStaffDirectSales;
-        $response['chat_id'] = $chat_id;
-        $response['text'] = 'Выберите сотрудника:';
-
-        sendMessage($token, $response);
-
-        break;
-
-    case 'ВЭД':
-        $response = $keyboardStaffDirectSales;
-        $response['chat_id'] = $chat_id;
-        $response['text'] = 'Выберите сотрудника:';
-
-        sendMessage($token, $response);
-
-        break;
-
-    case 'HR':
-        $response = $keyboardStaffDirectSales;
-        $response['chat_id'] = $chat_id;
-        $response['text'] = 'Выберите сотрудника:';
-
-        sendMessage($token, $response);
-
-        break;
-
-    case 'ИТ и маркетинг':
-        $response = $keyboardStaffDirectSales;
-        $response['chat_id'] = $chat_id;
-        $response['text'] = 'Выберите сотрудника:';
-
-        sendMessage($token, $response);
-
-        break;*/
 
     case 'Назад':
         $response = $keyboardAction;
