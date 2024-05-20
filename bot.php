@@ -35,11 +35,6 @@ $chat_id_in = $callback_query['message']['chat']['id'];
 $first_name = $output['message']['from']['first_name'];
 $first_name_in = $callback_query['message']['chat']['first_name'];
 
-$query = $db->prepare("SELECT * FROM users WHERE telegram_id = '$chat_id'");
-$query->execute();
-$me = $query->fetchAll(PDO::FETCH_ASSOC);
-echo '<pre>' . print_r($me, 1) . '</pre>';
-
 //$reader = IOFactory::createReader('Xlsx');
 //$spreadsheet = $reader->load('table.xlsx');
 // Только чтение данных
@@ -155,13 +150,17 @@ $keyboardDepartment = array(
 
 switch ($message) {
     case '/start':
+        $query = $db->prepare("SELECT * FROM users WHERE telegram_id = '$chat_id'");
+        $query->execute();
+        $me = $query->fetchAll(PDO::FETCH_ASSOC);
+
         $date = date('Y-m-d H:i:s');
         $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name', '$chat_id', 'start', '$date')");
         $query->execute();
 
         $response = $keyboardAction;
         $response['chat_id'] = $chat_id;
-        $response['text'] = 'Здравствуйте ' . $first_name . ', что Вы хотите сделать?';
+        $response['text'] = 'Здравствуйте ' . $first_name . ', что Вы хотите сделать?' . print_r($me, 1);
 
         sendMessage($token, $response);
 
