@@ -297,7 +297,7 @@ if($search_worker !== false) {
 switch ($data){
     case 'dep|enter':
         $date = date('Y-m-d H:i:s');
-        $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name', '$chat_id', 'enter', '$date')");
+        $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name', '$chat_id_in', 'enter', '$date')");
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
         $action = 'enter';
@@ -311,7 +311,7 @@ switch ($data){
 
     case 'dep|call':
         $date = date('Y-m-d H:i:s');
-        $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name', '$chat_id', 'call', '$date'");
+        $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name', '$chat_id_in', 'call', '$date'");
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
         $action = 'call';
@@ -325,7 +325,7 @@ switch ($data){
 
     case 'dep|zoom':
         $date = date('Y-m-d H:i:s');
-        $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name', '$chat_id', 'zoom', '$date'");
+        $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name', '$chat_id_in', 'zoom', '$date'");
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
         $action = 'zoom';
