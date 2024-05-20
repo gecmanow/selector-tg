@@ -35,14 +35,6 @@ $chat_id_in = $callback_query['message']['chat']['id'];
 $first_name = $output['message']['from']['first_name'];
 $first_name_in = $callback_query['message']['chat']['first_name'];
 
-//$reader = IOFactory::createReader('Xlsx');
-//$spreadsheet = $reader->load('table.xlsx');
-// Только чтение данных
-//$reader->setReadDataOnly(true);
-
-//$sheetsCount = $spreadsheet->getSheetCount();
-//$table = $spreadsheet->getActiveSheet()->toArray();
-
 $query = $db->prepare("SELECT * FROM users");
 $query->execute();
 $users = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -420,9 +412,16 @@ function getWorkers($db_response, $chat_id_in) {
             )
         );
 
+        $count = count($db_response);
+
         foreach($db_response as $i => $dbr) {
             $keyboard['reply_markup']['inline_keyboard'][$i][0]['text'] = $dbr['name'];
             $keyboard['reply_markup']['inline_keyboard'][$i][0]['callback_data'] = 'worker@' . $dbr['telegram_id'];
+
+            if($i == $count) {
+                $keyboard['reply_markup']['inline_keyboard'][$i+1][0]['text'] = 'Назад';
+                $keyboard['reply_markup']['inline_keyboard'][$i+1][0]['callback_data'] = 'back';
+            }
         }
 
         $keyboard2 = json_encode($keyboard['reply_markup']);
