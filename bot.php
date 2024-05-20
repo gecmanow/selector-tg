@@ -321,7 +321,7 @@ switch ($data){
 
     case 'worker':
 
-        $query = $db->prepare("SELECT `name`, `action` FROM `actions` WHERE `chat_id` = '$worker' ORDER BY `created_at` DESC LIMIT 1");
+        $query = $db->prepare("SELECT `name`, `action` FROM `actions` WHERE `chat_id` = '$chat_id_in' ORDER BY `created_at` DESC LIMIT 1");
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
