@@ -45,7 +45,7 @@ $first_name_in = $callback_query['message']['chat']['first_name'];
 $query = $db->prepare("SELECT * FROM `users`");
 $query->execute();
 $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
-echo "<pre> . print_r($db_response, 1) . </pre>";
+echo '<pre>' . print_r($db_response, 1) . '</pre>';
 
 file_put_contents(__DIR__ . '/message.txt', print_r($output, true));
 
