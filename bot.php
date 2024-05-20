@@ -196,7 +196,7 @@ switch ($data){
 
     case 'call':
         $date = date('Y-m-d H:i:s');
-        $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'call', '$date'");
+        $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'call', '$date')");
         $query->execute();
 
         $response = $keyboardDepartment;
@@ -209,7 +209,7 @@ switch ($data){
 
     case 'zoom':
         $date = date('Y-m-d H:i:s');
-        $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'zoom', '$date'");
+        $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'zoom', '$date')");
         $query->execute();
 
         $response = $keyboardDepartment;
