@@ -146,8 +146,6 @@ $keyboardDepartment = array(
     ))
 );
 
-//if($data['message']['from']['id'] == 261803700) {
-
 switch ($message) {
     case '/start':
         $date = date('Y-m-d H:i:s');
@@ -397,17 +395,6 @@ if($search_worker !== false) {
             sendMessage($token, $response);
     }
 }
-
-
-/*} else {
-    $response = array(
-        'chat_id' => $data['message']['chat']['id'],
-        'text' => 'Ты не мой хозяин!'
-    );
-
-    sendMessage($token, $response);
-}*/
-
 
 function sendMessage($token, $response) {
     $ch = curl_init('https://api.telegram.org/bot' . $token . '/sendMessage');
