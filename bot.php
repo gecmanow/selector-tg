@@ -148,9 +148,9 @@ switch ($message) {
         $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name', '$chat_id', 'start', '$date')");
         $query->execute();
 
-        $query = $db->prepare("SELECT `name`, `action` FROM `actions` WHERE `chat_id` = 261803700 ORDER BY `created_at` DESC LIMIT 1");
-        $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
+        $query1 = $db->prepare("SELECT `name`, `action` FROM `actions` WHERE `chat_id` = 261803700 ORDER BY `created_at` DESC LIMIT 1");
+        $query1->execute();
+        $db_response = $query1->fetchAll(PDO::FETCH_ASSOC);
 
         $response = $keyboardAction;
         $response['chat_id'] = $chat_id;
