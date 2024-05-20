@@ -174,11 +174,11 @@ switch ($message) {
         sendMessage($token, $response);
 }
 //$action = 'action';
-$search_worker = strpos($data, '@');
+/*$search_worker = strpos($data, '@');
 if($search_worker !== false) {
     $worker = explode('@', $data)[1];
     $data = explode('@', $data)[0];
-}
+}*/
 
 switch ($data){
     case 'enter':
