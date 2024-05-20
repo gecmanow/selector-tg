@@ -160,7 +160,7 @@ switch ($message) {
 
         $response = $keyboardAction;
         $response['chat_id'] = $chat_id;
-        $response['text'] = 'Здравствуйте ' . $first_name . ', что Вы хотите сделать?' . print_r($me, 1);
+        $response['text'] = 'Здравствуйте ' . $first_name . ', что Вы хотите сделать?' . print_r($me[0], 1);
 
         sendMessage($token, $response);
 
