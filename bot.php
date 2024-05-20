@@ -171,9 +171,10 @@ $keyboardStaffDirectSales = array(
 
 switch ($message) {
     case '/start':
-        $query = $db->prepare("INSERT INTO actions (name, chat_id) VALUES ('$first_name', '$chat_id')");
+        $date = date('Y-m-d H:i:s');
+        $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name', '$chat_id', 'start', '$date')");
         $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
+        //$db_response = $query->fetchAll(PDO::FETCH_ASSOC);
         $response = $keyboardAction;
         $response['chat_id'] = $chat_id;
         $response['text'] = 'Здравствуйте ' . $first_name . ', что Вы хотите сделать?';
@@ -293,9 +294,10 @@ if($search_worker !== false) {
 
 switch ($data){
     case 'dep|enter':
-        /*$query = $db->prepare("INSERT INTO actions action VALUES 'enter'");
+        $date = date('Y-m-d H:i:s');
+        $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name', '$chat_id', 'enter', '$date')");
         $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);*/
+        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
         $action = 'enter';
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id_in;
@@ -306,9 +308,10 @@ switch ($data){
         break;
 
     case 'dep|call':
-        /*$query = $db->prepare("INSERT INTO actions action VALUES 'call'");
+        $date = date('Y-m-d H:i:s');
+        $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name', '$chat_id', 'call', '$date'");
         $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);*/
+        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
         $action = 'call';
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id_in;
@@ -319,9 +322,10 @@ switch ($data){
         break;
 
     case 'dep|zoom':
-        /*$query = $db->prepare("INSERT INTO actions action VALUES 'zoom'");
+        $date = date('Y-m-d H:i:s');
+        $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name', '$chat_id', 'zoom', '$date'");
         $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);*/
+        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
         $action = 'zoom';
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id_in;
@@ -432,7 +436,7 @@ switch ($data){
 
     case 'worker':
 
-        $query = $db->prepare("SELECT `name` FROM `users` WHERE `telegram_id` = '$worker'");
+        $query = $db->prepare("SELECT `name`, `action` FROM `actions` WHERE `telegram_id` = '$worker' ORDER BY `created_at` DESC LIMIT 1");
         $query->execute();
         $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -441,9 +445,7 @@ switch ($data){
                 $worker_name = $dbr['name'];
             }
 
-            
-
-            if($action == 'enter') {
+            if($dbr['action'] == 'enter') {
                 $action_response = 'Зайдите ко мне.';
             } elseif ($action == 'call') {
                 $action_response = 'Позвоните мне.';
