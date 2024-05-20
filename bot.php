@@ -50,19 +50,19 @@ $keyboardAction = array(
             array(
                 array(
                     'text' => 'Зайти',
-                    'callback_data' => 'dep|enter',
+                    'callback_data' => 'dep_enter',
                 )
             ),
             array(
                 array(
                     'text' => 'Перезвонить',
-                    'callback_data' => 'dep|call',
+                    'callback_data' => 'dep_call',
                 )
             ),
             array(
                 array(
                     'text' => 'Назначить Zoom',
-                    'callback_data' => 'dep|zoom',
+                    'callback_data' => 'dep_zoom',
                 )
             )
         ),
@@ -183,7 +183,7 @@ if($search_worker !== false) {
 }
 
 switch ($data){
-    case 'dep|enter':
+    case 'dep_enter':
         $date = date('Y-m-d H:i:s');
         $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'enter', '$date')");
         $query->execute();
@@ -197,7 +197,7 @@ switch ($data){
 
         break;
 
-    case 'dep|call':
+    case 'dep_call':
         $date = date('Y-m-d H:i:s');
         $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'call', '$date'");
         $query->execute();
@@ -211,7 +211,7 @@ switch ($data){
 
         break;
 
-    case 'dep|zoom':
+    case 'dep_zoom':
         $date = date('Y-m-d H:i:s');
         $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'zoom', '$date'");
         $query->execute();
