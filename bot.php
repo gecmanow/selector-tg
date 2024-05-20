@@ -231,7 +231,11 @@ if($search_worker !== false) {
     switch ($data){
         case 'enter':
             $date = date('Y-m-d H:i:s');
-            $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'enter', '$date')");
+            $query = $db->prepare("SELECT name FROM users WHERE telegram_id = '$chat_id_in'");
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            $me = $result[0]['name'];
+            $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$me', '$chat_id_in', 'enter', '$date')");
             $query->execute();
 
             $response = $keyboardDepartment;
@@ -244,7 +248,11 @@ if($search_worker !== false) {
 
         case 'call':
             $date = date('Y-m-d H:i:s');
-            $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'call', '$date')");
+            $query = $db->prepare("SELECT name FROM users WHERE telegram_id = '$chat_id_in'");
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            $me = $result[0]['name'];
+            $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$me', '$chat_id_in', 'call', '$date')");
             $query->execute();
 
             $response = $keyboardDepartment;
@@ -257,7 +265,11 @@ if($search_worker !== false) {
 
         case 'zoom':
             $date = date('Y-m-d H:i:s');
-            $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'zoom', '$date')");
+            $query = $db->prepare("SELECT name FROM users WHERE telegram_id = '$chat_id_in'");
+            $query->execute();
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            $me = $result[0]['name'];
+            $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$me', '$chat_id_in', 'zoom', '$date')");
             $query->execute();
 
             $response = $keyboardDepartment;
