@@ -34,6 +34,12 @@ $message_id = $callback_query['message']['message_id'];
 $chat_id_in = $callback_query['message']['chat']['id'];
 $first_name = $output['message']['from']['first_name'];
 $first_name_in = $callback_query['message']['chat']['first_name'];
+
+$query = $db->prepare("SELECT * FROM users WHERE telegram_id = '$chat_id'");
+$query->execute();
+$me = $query->fetchAll(PDO::FETCH_ASSOC);
+echo '<pre>' . print_r($me, 1) . '</pre>';
+
 //$reader = IOFactory::createReader('Xlsx');
 //$spreadsheet = $reader->load('table.xlsx');
 // Только чтение данных
@@ -199,17 +205,17 @@ if($search_worker !== false) {
                 }
 
                 if($worker['action'] === 'enter') {
-                    $action_response = 'Зайдите ко мне.';
+                    $action_response = 'зайти';
                 } elseif ($worker['action'] === 'call') {
-                    $action_response = 'Позвоните мне.';
+                    $action_response = 'связаться';
                 } elseif ($worker['action'] === 'zoom') {
-                    $action_response = 'Назначьте встречу в Zoom.';
+                    $action_response = 'назначить встречу в Zoom';
                 } else {
                     $action_response = 'не могу найти требуемое действие...';
                 }
 
                 $response['chat_id'] = $chat_id_in;
-                $response['text'] = 'Здравствуйте ' . $worker['name'] . '! ' . $action_response;
+                $response['text'] = $worker['name'] . ', Вас просит ' . $action_response;
                 sendMessage($token, $response);
             }
         }
@@ -383,9 +389,6 @@ if($search_worker !== false) {
     sendMessage($token, $response);
 }*/
 
-function deleteMessage() {
-    //
-}
 
 function sendMessage($token, $response) {
     $ch = curl_init('https://api.telegram.org/bot' . $token . '/sendMessage');
