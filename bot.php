@@ -214,7 +214,7 @@ if($search_worker !== false) {
                 }
 
                 $response['chat_id'] = $chat_id_in;
-                $response['text'] = $worker['name'] . ', Вас просит ' . $action_response;
+                $response['text'] = $worker['name'] . ', Вас просит ' . $action_response . ' ' . $me['post'];
                 sendMessage($token, $response);
             }
         }
