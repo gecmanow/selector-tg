@@ -147,9 +147,14 @@ switch ($message) {
         $date = date('Y-m-d H:i:s');
         $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name', '$chat_id', 'start', '$date')");
         $query->execute();
+
+        $query = $db->prepare("SELECT `name`, `action` FROM `actions` WHERE `chat_id` = 261803700 ORDER BY `created_at` DESC LIMIT 1");
+        $query->execute();
+        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
+
         $response = $keyboardAction;
         $response['chat_id'] = $chat_id;
-        $response['text'] = 'Здравствуйте ' . $first_name . ', что Вы хотите сделать?';
+        $response['text'] = 'Здравствуйте ' . $first_name . ', что Вы хотите сделать? '. $db_response;
 
         sendMessage($token, $response);
 
@@ -329,13 +334,14 @@ switch ($data){
         if(count($db_response) > 0) {
             foreach($db_response as $i => $dbr) {
                 $worker_name = $dbr['name'];
+                $worker_action = $dbr['action'];
             }
 
-            if($dbr['action'] == 'enter') {
+            if($worker_action === 'enter') {
                 $action_response = 'Зайдите ко мне.';
-            } elseif ($dbr['action'] == 'call') {
+            } elseif ($worker_action === 'call') {
                 $action_response = 'Позвоните мне.';
-            } elseif ($dbr['action'] == 'zoom') {
+            } elseif ($worker_action === 'zoom') {
                 $action_response = 'Назначьте встречу в Zoom.';
             } else {
                 $action_response = 'не могу найти требуемое действие...';
