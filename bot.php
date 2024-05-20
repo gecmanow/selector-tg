@@ -293,9 +293,9 @@ if($search_worker !== false) {
 
 switch ($data){
     case 'dep|enter':
-        $query = $db->prepare("INSERT INTO actions action VALUES 'enter'");
+        /*$query = $db->prepare("INSERT INTO actions action VALUES 'enter'");
         $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
+        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);*/
         $action = 'enter';
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id_in;
@@ -306,9 +306,9 @@ switch ($data){
         break;
 
     case 'dep|call':
-        $query = $db->prepare("INSERT INTO actions action VALUES 'call'");
+        /*$query = $db->prepare("INSERT INTO actions action VALUES 'call'");
         $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
+        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);*/
         $action = 'call';
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id_in;
@@ -319,9 +319,9 @@ switch ($data){
         break;
 
     case 'dep|zoom':
-        $query = $db->prepare("INSERT INTO actions action VALUES 'zoom'");
+        /*$query = $db->prepare("INSERT INTO actions action VALUES 'zoom'");
         $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
+        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);*/
         $action = 'zoom';
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id_in;
