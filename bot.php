@@ -33,7 +33,7 @@ $data = $callback_query['data'];
 $message_id = $callback_query['message']['message_id'];
 $chat_id_in = $callback_query['message']['chat']['id'];
 $first_name = $output['message']['from']['first_name'];
-$first_name_in = $callback_query['message']['from']['first_name'];
+$first_name_in = $callback_query['from']['first_name'];
 //$reader = IOFactory::createReader('Xlsx');
 //$spreadsheet = $reader->load('table.xlsx');
 // Только чтение данных
