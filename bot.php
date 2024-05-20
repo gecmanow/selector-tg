@@ -147,7 +147,6 @@ switch ($message) {
         $date = date('Y-m-d H:i:s');
         $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name', '$chat_id', 'start', '$date')");
         $query->execute();
-        //$db_response = $query->fetchAll(PDO::FETCH_ASSOC);
         $response = $keyboardAction;
         $response['chat_id'] = $chat_id;
         $response['text'] = 'Здравствуйте ' . $first_name . ', что Вы хотите сделать?';
@@ -187,7 +186,6 @@ switch ($data){
         $date = date('Y-m-d H:i:s');
         $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'enter', '$date')");
         $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
         $action = 'enter';
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id_in;
@@ -201,7 +199,6 @@ switch ($data){
         $date = date('Y-m-d H:i:s');
         $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'call', '$date'");
         $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
         $action = 'call';
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id_in;
@@ -215,7 +212,6 @@ switch ($data){
         $date = date('Y-m-d H:i:s');
         $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'zoom', '$date'");
         $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
         $action = 'zoom';
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id_in;
@@ -414,7 +410,7 @@ function getWorkers($db_response, $chat_id_in, $action = 'action') {
 
         $response = $keyboard3;
         $response['chat_id'] = $chat_id_in;
-        $response['text'] = 'Выберите сотрудника:' .$action;
+        $response['text'] = 'Выберите сотрудника:';
         return $response;
     } else {
         return array(
