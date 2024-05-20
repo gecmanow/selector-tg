@@ -222,7 +222,7 @@ if($search_worker !== false) {
                 }
 
                 $response['chat_id'] = $chat_id_in;
-                $response['text'] = $worker['name'] . ', Вас просит ' . $action_response . ' ' . $worker['post'];
+                $response['text'] = $worker['name'] . ', Вас просит ' . $action_response . ' ' . $worker['boss_post'] . ' ' . $worker['boss_name'];
                 sendMessage($token, $response);
             }
         }
