@@ -163,7 +163,7 @@ switch ($message) {
         } else {
             $response = $keyboardAction;
             $response['chat_id'] = $chat_id;
-            $response['text'] = 'Здравствуйте ' . $me[0]['name'] . ', что Вы хотите сделать?' . print_r($me[0], 1);
+            $response['text'] = 'Здравствуйте ' . $me[0]['name'] . ', что Вы хотите сделать?';
 
             sendMessage($token, $response);
         }
@@ -378,9 +378,13 @@ if($search_worker !== false) {
             break;
 
         case 'back':
+            $query = $db->prepare("SELECT * FROM users WHERE telegram_id = '$chat_id'");
+            $query->execute();
+            $me = $query->fetchAll(PDO::FETCH_ASSOC);
+
             $response = $keyboardAction;
             $response['chat_id'] = $chat_id_in;
-            $response['text'] = 'Здравствуйте ' . $first_name . ', что Вы хотите сделать?';
+            $response['text'] = 'Здравствуйте ' . $me[0]['name'] . ', что Вы хотите сделать?';
 
             sendMessage($token, $response);
 
