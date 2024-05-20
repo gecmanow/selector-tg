@@ -293,7 +293,9 @@ if($search_worker !== false) {
 
 switch ($data){
     case 'dep|enter':
-
+        $query = $db->prepare("INSERT INTO actions action VALUES 'enter'");
+        $query->execute();
+        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
         $action = 'enter';
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id_in;
@@ -304,7 +306,9 @@ switch ($data){
         break;
 
     case 'dep|call':
-
+        $query = $db->prepare("INSERT INTO actions action VALUES 'call'");
+        $query->execute();
+        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
         $action = 'call';
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id_in;
@@ -315,7 +319,9 @@ switch ($data){
         break;
 
     case 'dep|zoom':
-
+        $query = $db->prepare("INSERT INTO actions action VALUES 'zoom'");
+        $query->execute();
+        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
         $action = 'zoom';
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id_in;
@@ -435,11 +441,13 @@ switch ($data){
                 $worker_name = $dbr['name'];
             }
 
-            if($action === 'enter') {
+            
+
+            if($action == 'enter') {
                 $action_response = 'Зайдите ко мне.';
-            } elseif ($action === 'call') {
+            } elseif ($action == 'call') {
                 $action_response = 'Позвоните мне.';
-            } elseif ($action === 'zoom') {
+            } elseif ($action == 'zoom') {
                 $action_response = 'Назначьте встречу в Zoom.';
             } else {
                 $action_response = 'не могу найти требуемое действие...';
