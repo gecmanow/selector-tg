@@ -378,7 +378,7 @@ if($search_worker !== false) {
             break;
 
         case 'back':
-            $query = $db->prepare("SELECT * FROM users WHERE telegram_id = '$chat_id'");
+            $query = $db->prepare("SELECT * FROM users WHERE telegram_id = '$chat_id_in'");
             $query->execute();
             $me = $query->fetchAll(PDO::FETCH_ASSOC);
 
