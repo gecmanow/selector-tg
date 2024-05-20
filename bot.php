@@ -50,19 +50,19 @@ $keyboardAction = array(
             array(
                 array(
                     'text' => 'Зайти',
-                    'callback_data' => 'dep_enter',
+                    'callback_data' => 'enter',
                 )
             ),
             array(
                 array(
                     'text' => 'Перезвонить',
-                    'callback_data' => 'dep_call',
+                    'callback_data' => 'call',
                 )
             ),
             array(
                 array(
                     'text' => 'Назначить Zoom',
-                    'callback_data' => 'dep_zoom',
+                    'callback_data' => 'zoom',
                 )
             )
         ),
@@ -148,10 +148,6 @@ switch ($message) {
         $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name', '$chat_id', 'start', '$date')");
         $query->execute();
 
-        $query1 = $db->prepare("SELECT `name`, `action` FROM `actions` WHERE `chat_id` = 261803700 ORDER BY `created_at` DESC LIMIT 1");
-        $query1->execute();
-        $db_response = $query1->fetchAll(PDO::FETCH_ASSOC);
-
         $response = $keyboardAction;
         $response['chat_id'] = $chat_id;
         $response['text'] = 'Здравствуйте ' . $first_name . ', что Вы хотите сделать?';
@@ -187,7 +183,7 @@ if($search_worker !== false) {
 }
 
 switch ($data){
-    case 'dep_enter':
+    case 'enter':
         $date = date('Y-m-d H:i:s');
         $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'enter', '$date')");
         $query->execute();
@@ -200,7 +196,7 @@ switch ($data){
 
         break;
 
-    case 'dep_call':
+    case 'call':
         $date = date('Y-m-d H:i:s');
         $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'call', '$date'");
         $query->execute();
@@ -213,7 +209,7 @@ switch ($data){
 
         break;
 
-    case 'dep_zoom':
+    case 'zoom':
         $date = date('Y-m-d H:i:s');
         $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'zoom', '$date'");
         $query->execute();
@@ -407,7 +403,7 @@ function getWorkers($db_response, $chat_id_in) {
 
         foreach($db_response as $i => $dbr) {
             $keyboard['reply_markup']['inline_keyboard'][$i][0]['text'] = $dbr['name'];
-            $keyboard['reply_markup']['inline_keyboard'][$i][0]['callback_data'] = 'worker@' . $dbr['telegram_id'];
+            $keyboard['reply_markup']['inline_keyboard'][$i][0]['callback_data'] = $dbr['telegram_id'];
         }
 
         $keyboard2 = json_encode($keyboard['reply_markup']);
