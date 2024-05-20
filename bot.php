@@ -161,6 +161,7 @@ switch ($message) {
         if($me[0]['status'] === 0) {
             $response['chat_id'] = $chat_id;
             $response['text'] = 'Здравствуйте ' . $me[0]['name'] . '! Вы успешно зарегистрированы в боте.' . print_r($me[0], 1);
+            sendMessage($token, $response);
         } else {
             $response = $keyboardAction;
             $response['chat_id'] = $chat_id;
