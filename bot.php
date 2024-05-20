@@ -42,7 +42,7 @@ $first_name_in = $callback_query['message']['chat']['first_name'];
 //$sheetsCount = $spreadsheet->getSheetCount();
 //$table = $spreadsheet->getActiveSheet()->toArray();
 
-$query = $db->prepare("SELECT * FROM actions JOIN users ON actions.chat_id = users.telegram_id WHERE actions.chat_id = '$chat_id_in' ORDER BY actions.created_at DESC LIMIT 1");
+$query = $db->prepare("SELECT * FROM users");
 $query->execute();
 $users = $query->fetchAll(PDO::FETCH_ASSOC);
 echo '<pre>' . print_r($users, 1) . '</pre>';
@@ -186,7 +186,7 @@ if($search_worker !== false) {
 
     foreach($users as $user) {
         if($user['telegram_id'] === $telegram_id) {
-            $query = $db->prepare("SELECT `name`, `action` FROM `actions` JOIN `users` ON `actions.chat_id` = `users.telegram_id` WHERE `chat_id` = '$chat_id_in' ORDER BY `created_at` DESC LIMIT 1");
+            $query = $db->prepare("SELECT users.name, actions.action FROM actions JOIN users ON actions.chat_id = users.telegram_id WHERE chat_id = '$chat_id_in' ORDER BY created_at DESC LIMIT 1");
             $query->execute();
             $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
