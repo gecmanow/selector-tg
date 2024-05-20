@@ -33,7 +33,7 @@ $data = $callback_query['data'];
 $message_id = $callback_query['message']['message_id'];
 $chat_id_in = $callback_query['message']['chat']['id'];
 $first_name = $output['message']['from']['first_name'];
-$first_name_in = $callback_query['from']['first_name'];
+$first_name_in = $callback_query['message']['chat']['first_name'];
 //$reader = IOFactory::createReader('Xlsx');
 //$spreadsheet = $reader->load('table.xlsx');
 // Только чтение данных
@@ -154,7 +154,7 @@ switch ($message) {
 
         $response = $keyboardAction;
         $response['chat_id'] = $chat_id;
-        $response['text'] = 'Здравствуйте ' . $first_name . ', что Вы хотите сделать? '. implode(' ', $db_response);
+        $response['text'] = 'Здравствуйте ' . $first_name . ', что Вы хотите сделать?';
 
         sendMessage($token, $response);
 
@@ -333,22 +333,22 @@ switch ($data){
 
         if(count($db_response) > 0) {
             foreach($db_response as $i => $dbr) {
-                $worker_name = $dbr['name'];
-                $worker_action = $dbr['action'];
+                $worker['name'] = $dbr['name'];
+                $worker['action'] = $dbr['action'];
             }
 
-            if($worker_action === 'enter') {
+            if($worker['action'] === 'enter') {
                 $action_response = 'Зайдите ко мне.';
-            } elseif ($worker_action === 'call') {
+            } elseif ($worker['action'] === 'call') {
                 $action_response = 'Позвоните мне.';
-            } elseif ($worker_action === 'zoom') {
+            } elseif ($worker['action'] === 'zoom') {
                 $action_response = 'Назначьте встречу в Zoom.';
             } else {
                 $action_response = 'не могу найти требуемое действие...';
             }
 
             $response['chat_id'] = $worker;
-            $response['text'] = 'Здравствуйте ' . $worker_name . '! ' . $action_response;
+            $response['text'] = 'Здравствуйте ' . $worker['name'] . '! ' . $action_response;
             sendMessage($token, $response);
         }
 
@@ -395,7 +395,7 @@ function sendMessage($token, $response) {
     curl_close($ch);
 }
 
-function getWorkers($db_response, $chat_id_in, $action = 'action') {
+function getWorkers($db_response, $chat_id_in) {
     if(count($db_response) > 0) {
         $keyboard = array(
             'reply_markup' => array(
