@@ -197,7 +197,7 @@ if($search_worker !== false) {
 
     foreach($users as $user) {
         if($user['telegram_id'] === $telegram_id) {
-            $query = $db->prepare("SELECT users.name, users.post, actions.action FROM actions JOIN users ON actions.chat_id = users.telegram_id WHERE chat_id = '$chat_id_in' ORDER BY created_at DESC LIMIT 1");
+            $query = $db->prepare("SELECT users.name, users.post, actions.name AS boss_name, actions.action FROM actions JOIN users ON actions.chat_id = users.telegram_id WHERE chat_id = '$chat_id_in' ORDER BY created_at DESC LIMIT 1");
             $query->execute();
             $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -207,7 +207,8 @@ if($search_worker !== false) {
                 foreach($db_response as $i => $dbr) {
                     $worker['name'] = $dbr['name'];
                     $worker['action'] = $dbr['action'];
-                    $worker['post'] = $dbr['post'];
+                    $worker['boss_post'] = $dbr['post'];
+                    $worker['boss_name'] = $dbr['boss_name'];
                 }
 
                 if($worker['action'] === 'enter') {
