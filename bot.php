@@ -208,7 +208,7 @@ if($search_worker !== false) {
                     $action_response = 'не могу найти требуемое действие...';
                 }
 
-                $response['chat_id'] = $worker;
+                $response['chat_id'] = $chat_id_in;
                 $response['text'] = 'Здравствуйте ' . $worker['name'] . '! ' . $action_response;
                 sendMessage($token, $response);
             }
