@@ -150,19 +150,24 @@ $keyboardDepartment = array(
 
 switch ($message) {
     case '/start':
-        $query = $db->prepare("SELECT * FROM users WHERE telegram_id = '$chat_id'");
-        $query->execute();
-        $me = $query->fetchAll(PDO::FETCH_ASSOC);
-
         $date = date('Y-m-d H:i:s');
         $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name', '$chat_id', 'start', '$date')");
         $query->execute();
 
-        $response = $keyboardAction;
-        $response['chat_id'] = $chat_id;
-        $response['text'] = 'Здравствуйте ' . $first_name . ', что Вы хотите сделать?' . print_r($me[0], 1);
+        $query = $db->prepare("SELECT * FROM users WHERE telegram_id = '$chat_id'");
+        $query->execute();
+        $me = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        sendMessage($token, $response);
+        if($me[0]['status'] == 0) {
+            $response['chat_id'] = $chat_id;
+            $response['text'] = 'Здравствуйте ' . $me[0]['name'] . '! Вы успешно зарегистрированы в боте.' . print_r($me[0], 1);
+        } else {
+            $response = $keyboardAction;
+            $response['chat_id'] = $chat_id;
+            $response['text'] = 'Здравствуйте ' . $me[0]['name'] . ', что Вы хотите сделать?' . print_r($me[0], 1);
+
+            sendMessage($token, $response);
+        }
 
         break;
 
