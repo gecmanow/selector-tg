@@ -44,8 +44,8 @@ $first_name_in = $callback_query['message']['chat']['first_name'];
 
 $query = $db->prepare("SELECT * FROM `users`");
 $query->execute();
-$db_response = $query->fetchAll(PDO::FETCH_ASSOC);
-echo '<pre>' . print_r($db_response, 1) . '</pre>';
+$users = $query->fetchAll(PDO::FETCH_ASSOC);
+echo '<pre>' . print_r($users, 1) . '</pre>';
 
 file_put_contents(__DIR__ . '/message.txt', print_r($output, true));
 
@@ -178,198 +178,199 @@ switch ($message) {
 
         sendMessage($token, $response);
 }
-//$action = 'action';
+
 $search_worker = strpos($data, '@');
 if($search_worker !== false) {
-    $worker = explode('@', $data)[1];
+    $telegram_id = explode('@', $data)[1];
     $data = explode('@', $data)[0];
-}
 
-switch ($data){
-    case 'enter':
-        $date = date('Y-m-d H:i:s');
-        $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'enter', '$date')");
-        $query->execute();
+    foreach($users as $user) {
+        if($user['telegram_id'] == $telegram_id) {
+            $query = $db->prepare("SELECT `name`, `action` FROM `actions` WHERE `chat_id` = '$chat_id_in' ORDER BY `created_at` DESC LIMIT 1");
+            $query->execute();
+            $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
-        $response = $keyboardDepartment;
-        $response['chat_id'] = $chat_id_in;
-        $response['text'] = 'Выберите отдел:';
+            if(count($db_response) > 0) {
+                foreach($db_response as $i => $dbr) {
+                    $worker['name'] = $dbr['name'];
+                    $worker['action'] = $dbr['action'];
+                }
 
-        sendMessage($token, $response);
+                if($worker['action'] === 'enter') {
+                    $action_response = 'Зайдите ко мне.';
+                } elseif ($worker['action'] === 'call') {
+                    $action_response = 'Позвоните мне.';
+                } elseif ($worker['action'] === 'zoom') {
+                    $action_response = 'Назначьте встречу в Zoom.';
+                } else {
+                    $action_response = 'не могу найти требуемое действие...';
+                }
 
-        break;
-
-    case 'call':
-        $date = date('Y-m-d H:i:s');
-        $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'call', '$date')");
-        $query->execute();
-
-        $response = $keyboardDepartment;
-        $response['chat_id'] = $chat_id_in;
-        $response['text'] = 'Выберите отдел:';
-
-        sendMessage($token, $response);
-
-        break;
-
-    case 'zoom':
-        $date = date('Y-m-d H:i:s');
-        $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'zoom', '$date')");
-        $query->execute();
-
-        $response = $keyboardDepartment;
-        $response['chat_id'] = $chat_id_in;
-        $response['text'] = 'Выберите отдел:';
-
-        sendMessage($token, $response);
-
-        break;
-
-    case 'direct_sales':
-        $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Прямые продажи' OR `departament` = 'Прямые продажи/Проектные продажи'");
-        $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
-
-        $response = getWorkers($db_response, $chat_id_in);
-
-        sendMessage($token, $response);
-
-        break;
-
-    case 'project_sales':
-        $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Проектные продажи' OR `departament` = 'Прямые продажи/Проектные продажи'");
-        $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
-
-        $response = getWorkers($db_response, $chat_id_in);
-
-        sendMessage($token, $response);
-
-        break;
-
-    case 'supply':
-        $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Снабжение'");
-        $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
-
-        $response = getWorkers($db_response, $chat_id_in);
-
-        sendMessage($token, $response);
-
-        break;
-
-    case 'ved':
-        $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'ВЭД'");
-        $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
-
-        $response = getWorkers($db_response, $chat_id_in);
-
-        sendMessage($token, $response);
-
-        break;
-
-    case 'hr':
-        $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'HR'");
-        $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
-
-        $response = getWorkers($db_response, $chat_id_in);
-
-        sendMessage($token, $response);
-
-        break;
-
-    case 'it':
-        $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'IT + маркетинг'");
-        $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
-
-        $response = getWorkers($db_response, $chat_id_in);
-
-        sendMessage($token, $response);
-
-        break;
-
-    case 'service':
-        $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Сервис'");
-        $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
-
-        $response = getWorkers($db_response, $chat_id_in);
-
-        sendMessage($token, $response);
-
-        break;
-
-    case 'root':
-        $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Корневой'");
-        $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
-
-        $response = getWorkers($db_response, $chat_id_in);
-
-        sendMessage($token, $response);
-
-        break;
-
-    case 'comptabilitat':
-        $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Бухгалтерия'");
-        $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
-
-        $response = getWorkers($db_response, $chat_id_in);
-
-        sendMessage($token, $response);
-
-        break;
-
-    case 'worker':
-
-        $query = $db->prepare("SELECT `name`, `action` FROM `actions` WHERE `chat_id` = '$chat_id_in' ORDER BY `created_at` DESC LIMIT 1");
-        $query->execute();
-        $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
-
-        if(count($db_response) > 0) {
-            foreach($db_response as $i => $dbr) {
-                $worker['name'] = $dbr['name'];
-                $worker['action'] = $dbr['action'];
+                $response['chat_id'] = $worker;
+                $response['text'] = 'Здравствуйте ' . $worker['name'] . '! ' . $action_response;
+                sendMessage($token, $response);
             }
-
-            if($worker['action'] === 'enter') {
-                $action_response = 'Зайдите ко мне.';
-            } elseif ($worker['action'] === 'call') {
-                $action_response = 'Позвоните мне.';
-            } elseif ($worker['action'] === 'zoom') {
-                $action_response = 'Назначьте встречу в Zoom.';
-            } else {
-                $action_response = 'не могу найти требуемое действие...';
-            }
-
-            $response['chat_id'] = $worker;
-            $response['text'] = 'Здравствуйте ' . $worker['name'] . '! ' . $action_response;
-            sendMessage($token, $response);
         }
+    }
+} else {
+    switch ($data){
+        case 'enter':
+            $date = date('Y-m-d H:i:s');
+            $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'enter', '$date')");
+            $query->execute();
 
-        break;
+            $response = $keyboardDepartment;
+            $response['chat_id'] = $chat_id_in;
+            $response['text'] = 'Выберите отдел:';
 
-    case 'back':
-        $response = $keyboardAction;
-        $response['chat_id'] = $chat_id_in;
-        $response['text'] = 'Здравствуйте ' . $first_name . ', что Вы хотите сделать?';
+            sendMessage($token, $response);
 
-        sendMessage($token, $response);
+            break;
 
-        break;
+        case 'call':
+            $date = date('Y-m-d H:i:s');
+            $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'call', '$date')");
+            $query->execute();
 
-    default:
-        $response = array(
-            'chat_id' => $chat_id_in,
-            'text' => 'Не понимаю о чём вы...'
-        );
+            $response = $keyboardDepartment;
+            $response['chat_id'] = $chat_id_in;
+            $response['text'] = 'Выберите отдел:';
 
-        sendMessage($token, $response);
+            sendMessage($token, $response);
+
+            break;
+
+        case 'zoom':
+            $date = date('Y-m-d H:i:s');
+            $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'zoom', '$date')");
+            $query->execute();
+
+            $response = $keyboardDepartment;
+            $response['chat_id'] = $chat_id_in;
+            $response['text'] = 'Выберите отдел:';
+
+            sendMessage($token, $response);
+
+            break;
+
+        case 'direct_sales':
+            $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Прямые продажи' OR `departament` = 'Прямые продажи/Проектные продажи'");
+            $query->execute();
+            $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $response = getWorkers($db_response, $chat_id_in);
+
+            sendMessage($token, $response);
+
+            break;
+
+        case 'project_sales':
+            $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Проектные продажи' OR `departament` = 'Прямые продажи/Проектные продажи'");
+            $query->execute();
+            $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $response = getWorkers($db_response, $chat_id_in);
+
+            sendMessage($token, $response);
+
+            break;
+
+        case 'supply':
+            $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Снабжение'");
+            $query->execute();
+            $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $response = getWorkers($db_response, $chat_id_in);
+
+            sendMessage($token, $response);
+
+            break;
+
+        case 'ved':
+            $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'ВЭД'");
+            $query->execute();
+            $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $response = getWorkers($db_response, $chat_id_in);
+
+            sendMessage($token, $response);
+
+            break;
+
+        case 'hr':
+            $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'HR'");
+            $query->execute();
+            $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $response = getWorkers($db_response, $chat_id_in);
+
+            sendMessage($token, $response);
+
+            break;
+
+        case 'it':
+            $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'IT + маркетинг'");
+            $query->execute();
+            $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $response = getWorkers($db_response, $chat_id_in);
+
+            sendMessage($token, $response);
+
+            break;
+
+        case 'service':
+            $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Сервис'");
+            $query->execute();
+            $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $response = getWorkers($db_response, $chat_id_in);
+
+            sendMessage($token, $response);
+
+            break;
+
+        case 'root':
+            $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Корневой'");
+            $query->execute();
+            $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $response = getWorkers($db_response, $chat_id_in);
+
+            sendMessage($token, $response);
+
+            break;
+
+        case 'comptabilitat':
+            $query = $db->prepare("SELECT `name`, `telegram_id` FROM `users` WHERE `departament` = 'Бухгалтерия'");
+            $query->execute();
+            $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            $response = getWorkers($db_response, $chat_id_in);
+
+            sendMessage($token, $response);
+
+            break;
+
+        case 'back':
+            $response = $keyboardAction;
+            $response['chat_id'] = $chat_id_in;
+            $response['text'] = 'Здравствуйте ' . $first_name . ', что Вы хотите сделать?';
+
+            sendMessage($token, $response);
+
+            break;
+
+        default:
+            $response = array(
+                'chat_id' => $chat_id_in,
+                'text' => 'Не понимаю о чём вы...'
+            );
+
+            sendMessage($token, $response);
+    }
 }
+
 
 /*} else {
     $response = array(
