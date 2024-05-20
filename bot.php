@@ -172,7 +172,7 @@ switch ($message) {
 
         sendMessage($token, $response);
 }
-$action = 'action';
+//$action = 'action';
 $search_worker = strpos($data, '@');
 if($search_worker !== false) {
     $worker = explode('@', $data)[1];
@@ -186,7 +186,7 @@ switch ($data){
         $date = date('Y-m-d H:i:s');
         $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'enter', '$date')");
         $query->execute();
-        $action = 'enter';
+
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id_in;
         $response['text'] = 'Выберите отдел:';
@@ -199,7 +199,7 @@ switch ($data){
         $date = date('Y-m-d H:i:s');
         $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'call', '$date'");
         $query->execute();
-        $action = 'call';
+
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id_in;
         $response['text'] = 'Выберите отдел:';
@@ -212,7 +212,7 @@ switch ($data){
         $date = date('Y-m-d H:i:s');
         $query = $db->prepare("INSERT INTO actions (name, chat_id, action, created_at) VALUES ('$first_name_in', '$chat_id_in', 'zoom', '$date'");
         $query->execute();
-        $action = 'zoom';
+
         $response = $keyboardDepartment;
         $response['chat_id'] = $chat_id_in;
         $response['text'] = 'Выберите отдел:';
@@ -333,9 +333,9 @@ switch ($data){
 
             if($dbr['action'] == 'enter') {
                 $action_response = 'Зайдите ко мне.';
-            } elseif ($action == 'call') {
+            } elseif ($dbr['action'] == 'call') {
                 $action_response = 'Позвоните мне.';
-            } elseif ($action == 'zoom') {
+            } elseif ($dbr['action'] == 'zoom') {
                 $action_response = 'Назначьте встречу в Zoom.';
             } else {
                 $action_response = 'не могу найти требуемое действие...';
