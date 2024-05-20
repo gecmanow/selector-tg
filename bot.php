@@ -178,8 +178,6 @@ $search_worker = strpos($data, '@');
 if($search_worker !== false) {
     $worker = explode('@', $data)[1];
     $data = explode('@', $data)[0];
-} else {
-    $worker = 261803700;
 }
 
 switch ($data){
