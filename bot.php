@@ -214,6 +214,10 @@ if($search_worker !== false) {
                 $response['chat_id'] = $telegram_id;
                 $response['text'] = $worker['name'] . ', Вас просит ' . $action_response . ' ' . $worker['boss_post'] . ' ' . $worker['boss_name'];
                 sendMessage($token, $response);
+
+                $res['chat_id'] = $chat_id_in;
+                $res['text'] = 'Сообщение отправлено пользователю ' . $worker['name'];
+                sendMessage($token, $res);
             }
         }
     }
