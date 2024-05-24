@@ -187,7 +187,7 @@ if($search_worker !== false) {
 
     foreach($users as $user) {
         if($user['telegram_id'] === $telegram_id) {
-            $query = $db->prepare("SELECT users.name, users.post, users.telegram_id actions.name AS boss_name, actions.action FROM actions JOIN users ON actions.chat_id = users.telegram_id WHERE chat_id = '$chat_id_in' ORDER BY created_at DESC LIMIT 1");
+            $query = $db->prepare("SELECT users.name, users.post, users.telegram_id, actions.name AS boss_name, actions.action FROM actions JOIN users ON actions.chat_id = users.telegram_id WHERE chat_id = '$chat_id_in' ORDER BY created_at DESC LIMIT 1");
             $query->execute();
             $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
