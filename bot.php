@@ -187,7 +187,7 @@ if($search_worker !== false) {
 
     foreach($users as $user) {
         if($user['telegram_id'] === $telegram_id) {
-            $query = $db->prepare("SELECT users.name, users.post, actions.name AS boss_name, actions.action FROM actions JOIN users ON actions.chat_id = users.telegram_id WHERE chat_id = '$chat_id_in' ORDER BY created_at DESC LIMIT 1");
+            $query = $db->prepare("SELECT users.name, users.post, users.telegram_id actions.name AS boss_name, actions.action FROM actions JOIN users ON actions.chat_id = users.telegram_id WHERE chat_id = '$chat_id_in' ORDER BY created_at DESC LIMIT 1");
             $query->execute();
             $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
@@ -197,6 +197,7 @@ if($search_worker !== false) {
                 foreach($db_response as $i => $dbr) {
                     $worker['name'] = $dbr['name'];
                     $worker['action'] = $dbr['action'];
+                    $worker['telegram_id'] = $dbr['telegram_id'];
                     $worker['boss_post'] = $dbr['post'];
                     $worker['boss_name'] = $dbr['boss_name'];
                 }
@@ -211,7 +212,7 @@ if($search_worker !== false) {
                     $action_response = 'не могу найти требуемое действие...';
                 }
 
-                $response['chat_id'] = $chat_id_in;
+                $response['chat_id'] = $worker['telegram_id'];
                 $response['text'] = $worker['name'] . ', Вас просит ' . $action_response . ' ' . $worker['boss_post'] . ' ' . $worker['boss_name'];
                 sendMessage($token, $response);
             }
