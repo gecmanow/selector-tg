@@ -191,7 +191,17 @@ if($search_worker !== false) {
             $query->execute();
             $db_response = $query->fetchAll(PDO::FETCH_ASSOC);
 
+            $query = $db->prepare("SELECT users.name, users.post FROM users WHERE users.telegram_id = '$telegram_id'");
+            $query->execute();
+            $db_response_2 = $query->fetchAll(PDO::FETCH_ASSOC);
+
             $worker = [];
+            $target = [];
+
+            foreach($db_response_2 as $dbr2) {
+                $target['name'] = $dbr2['name'];
+                $target['post'] = $dbr2['post'];
+            }
 
             if(count($db_response) > 0) {
                 foreach($db_response as $i => $dbr) {
@@ -212,11 +222,11 @@ if($search_worker !== false) {
                 }
 
                 $response['chat_id'] = $telegram_id;
-                $response['text'] = $worker['name'] . ', Вас просит ' . $action_response . ' ' . $worker['boss_post'] . ' ' . $worker['boss_name'];
+                $response['text'] = $target['name'] . ', Вас просит ' . $action_response . ' ' . $worker['boss_post'] . ' ' . $worker['name'];
                 sendMessage($token, $response);
 
                 $res['chat_id'] = $chat_id_in;
-                $res['text'] = 'Сообщение отправлено пользователю ' . $worker['name'];
+                $res['text'] = 'Сообщение отправлено пользователю ' . $target['name'];
                 sendMessage($token, $res);
             }
         }
